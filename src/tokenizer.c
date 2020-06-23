@@ -35,3 +35,38 @@ char *word_terminator(char *word) {
   }
   return word;
 }
+
+int count_words(char* str) {
+  int OUT = 0;
+  int IN = 1;
+  int state = OUT;
+  int count = 0; //count words to return
+
+  while(*str) {
+    if (*str == ' ' || *str == '\n' || *str == '\t') {
+      state = OUT;
+    } else if (state == OUT) {
+      state = IN;
+      count++;
+    }
+  }
+  return count;
+}
+
+char *copy_str(char *inStr, short len) {
+  char* helper = inStr;
+  char* copyStr =  NULL;
+
+  //allocate extra memory for '\0' at the end of the string
+  copyStr = (char*) malloc(sizeof(char) * (len + 1));
+
+  //add '\0' at the end of the string
+  copyStr[len] = '\0';
+
+  int index = 0;
+  while(*helper != '\0') {
+    copyStr[index++] = *helper++;
+  }
+  return copyStr;
+}
+
