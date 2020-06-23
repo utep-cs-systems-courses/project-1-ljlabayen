@@ -4,29 +4,6 @@
 #include "history.h"
 #define MAX 1000
 
-void print(char *str) {
-  while (*str != '\0') {
-    printf("%c", *str);
-    str++;
-  }
-  printf("\n");
-}
-
-int compareStrings(const char *temp1, const char *temp2) {
-  while(*temp1 && *temp2) {
-    if(*temp1 == *temp2) {
-      temp1++;
-      temp2++;
-    } else {
-      if (*temp1<*temp2) {
-	return -1;
-      } else {
-	return 1;
-      }
-    }  }
-  return 0;
-}
-
 void test() {
   printf("%d\n", space_char(' '));
   printf("%d\n", space_char('\t'));                            
@@ -43,41 +20,43 @@ void test() {
   List* history = init_history();
   add_history(history, "yoooo");
   add_history(history, "yoooo2");
-
+  add_history(history, "3yo");
   printf("%s\n", get_history(history, 0));
   printf("%s\n", get_history(history, 1));
   printf("%s\n", get_history(history, 2));
   printf("%s\n", get_history(history, 3));
   print_history(history);
 }
+
 int main() {
   test();
   char str[MAX];
   int condition = 1;
-  List* list = init_history();
+  List *history = init_history();
   
   while(condition == 1) {
     printf("$ ");
     fgets(str, MAX, stdin);
-    
+  
     if (*str == '!') {
       int index = atoi(str+1);
-      char *prv_str = get_history(list, index);
-      if (prv_str !=NULL) {
+      char *prv_str = get_history(history, index);
+      if (prv_str != NULL) {
 	printf("Item #%d: ",index);
-	printf(get_history(list, index));
+	printf(get_history(history, index));
       }
     }
-    if(*str != '!'){
-      add_history(list, str);
+    if(*str != '!') { 
       char** tokens = tokenize(str);
       print_tokens(tokens);
-      free_tokens(tokens);
+      print_history(history);
+      add_history(history, str);
     }
-    if (*str == '0')
-      condition = 0;
+     if (*str == '0')
+       condition = 0; 
   }
-  print_history(list);
+  print_history(history);
+  free_history(history);
   return 0;
 
 }
