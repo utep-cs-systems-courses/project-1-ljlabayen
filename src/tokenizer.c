@@ -4,7 +4,6 @@
 #define true 1
 #define false 0
 
-/* Returns true (non-zero if c is a whitespace char: ' ' or '\t'. */
 int space_char(char c) {
   if (c==' ' || c =='\t') {
     return true;
@@ -13,7 +12,6 @@ int space_char(char c) {
   }
 }
 
-/* Returns true (non-zero) if c is a non-whitespace char: not ' ' or '\t' */
 int non_space_char(char c) {
   if (c != ' ' && c != '\t') {
     return true;
