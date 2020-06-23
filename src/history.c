@@ -9,10 +9,26 @@ List* init_history()  {
   return history;
 }
 
-void add_history(List *list, char *str) {
-  if (list->root == NULL) {
-    list->root = (Item*) malloc(sizeof(Item));
-    list->root = id = 1;
+void add_history(List *list, char *str) {		      
+  Item *new = (Item*)malloc(sizeof(Item));
+  if (list->root == 0){
+    new->id = 1;
+    list->root = new;
+  } else {
+    Item *currItem = list->root;
+    while(currItem->next != NULL) {
+      currItem =  currItem->next;
+    }
+    new->id =  currItem->id + 1;
+    currItem->next = new;
+  }
+  new->str = str;
+  new->next = NULL;
+}
+  
+  /*if (list->root == NULL) {
+    list->root = (Item*)malloc(sizeof(Item));
+    list->root->id = 1;
     list->root->str = str;
     list->root->next = NULL;
   } else {
@@ -22,11 +38,11 @@ void add_history(List *list, char *str) {
       temp = temp->next;
     }
     temp->next = (Item*) malloc(sizeof(Item));
-    temp->next->id = ((*temp).id) + 1;
+    temp->next->id = temp->id + 1;
     temp->next->next = NULL;
   }
 }
-
+  */
 char* get_history(List *list, int id) {
   if (list->root == NULL) {
     return "List is empty";

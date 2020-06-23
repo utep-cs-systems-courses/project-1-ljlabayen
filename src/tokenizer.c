@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "tokenizer.h"
 #define true 1
 #define false 0
 
@@ -49,6 +50,7 @@ int count_words(char* str) {
       state = IN;
       count++;
     }
+    str++;
   }
   return count;
 }
@@ -71,23 +73,26 @@ char *copy_str(char *inStr, short len) {
 }
 
 char** tokenize(char* str) {
-  int size = count_words(str)
-  char** tokens =  (char**) malloc((size+1) * sizeof(char*));
+  int size = count_words(str);
+  char **tokens;
+  tokens =  (char**) malloc((size+1) * sizeof(char*));
 
   char* start = str;
-  char* end =  word_end(str);
- 
-  for (int i=0; i < size; i++) {
+  char* end = word_terminator(str);
+  int i;
+  for (i = 0; i < size; i++) {
     if (i > 0) {
       start = word_start(end);
-      end =  word_end(start);
+      end = word_terminator(start);
     }
-    int size2 =  end -  start;
+
+    int size2 =  end - start;
     tokens[i] = malloc(size2 * sizeof(char));
-    for (int j = 0; j < size2;j++) {
+    for (int j = 0; j < size2; j++) {
       tokens[i][j] = start[j];
     }
   }
+  // tokens[i] = '\0';
   return tokens;
 }
 
