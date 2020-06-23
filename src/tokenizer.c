@@ -92,7 +92,7 @@ char** tokenize(char* str) {
       tokens[i][j] = start[j];
     }
   }
-  // tokens[i] = '\0';
+  tokens[i] = '\0';
   return tokens;
 }
 
