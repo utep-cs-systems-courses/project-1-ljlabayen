@@ -70,3 +70,31 @@ char *copy_str(char *inStr, short len) {
   return copyStr;
 }
 
+char** tokenize(char* str) {
+  int size = count_words(str)
+  char** tokens =  (char**) malloc((size+1) * sizeof(char*));
+
+  char* start = str;
+  char* end =  word_end(str);
+ 
+  for (int i=0; i < size; i++) {
+    if (i > 0) {
+      start = word_start(end);
+      end =  word_end(start);
+    }
+    int size2 =  end -  start;
+    tokens[i] = malloc(size2 * sizeof(char));
+    for (int j = 0; j < size2;j++) {
+      tokens[i][j] = start[j];
+    }
+  }
+  return tokens;
+}
+
+void print_tokens(char **tokens) {
+  int i = 0;
+  while(tokens[i] != NULL) {
+    printf("%s\n", tokens[i]);
+    i++;
+  }
+}
