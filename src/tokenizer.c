@@ -98,3 +98,11 @@ void print_tokens(char **tokens) {
     i++;
   }
 }
+
+void free_tokens(char **tokens) {
+  while(*tokens) {
+    free(*tokens);
+    tokens++;
+  }
+  free(tokens);
+}
