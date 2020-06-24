@@ -9,18 +9,16 @@ void test() {
   printf("%d\n", space_char('\t'));                            
   printf("%d\n", space_char('e'));
   printf("%d\n", space_char('6'));
-  printf("here\n");
   
   printf("%d\n",non_space_char(' '));
   printf("%d\n", non_space_char('\t'));                            
   printf("%d\n", non_space_char('x'));
   printf("%d\n", non_space_char('2'));
-  printf("here11\n");
 
   List* history = init_history();
-  add_history(history, "yoooo");
-  add_history(history, "yoooo2");
-  add_history(history, "3yo");
+  add_history(history, "test1");
+  add_history(history, "test2 test2");
+  add_history(history, "3test 3test 3test");
   printf("%s\n", get_history(history, 0));
   printf("%s\n", get_history(history, 1));
   printf("%s\n", get_history(history, 2));
@@ -49,7 +47,8 @@ int main() {
     if(*str != '!') { 
       char** tokens = tokenize(str);
       print_tokens(tokens);
-      print_history(history);
+      free_tokens(tokens);
+      // print_history(history);
       add_history(history, str);
     }
      if (*str == '0')
