@@ -6,3 +6,5 @@ simpleui.o: simpleui.c history.h tokenizer.h
 tokenizer.o: tokenizer.h tokenizer.c
 
 history.o: history.h history.c
+
+clean: rm lab1tokenizer *.o
