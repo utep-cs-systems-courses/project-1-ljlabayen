@@ -46,14 +46,14 @@ int main() {
   printf("0 to exit and print history then dealloacate\n");
   
   while(condition == 1) {
-    printf("$ ");
-    fgets(str, MAX, stdin);
+    printf("$ "); //input prompt
+    fgets(str, MAX, stdin); //input
     if (*str == '!') {
-      int index = atoi(str+1);
-      char *prv_str = get_history(history, index);
-      if (prv_str != NULL) {
-	printf("Item #%d: ",index);
-	printf(get_history(history, index));
+      int index = atoi(str+1); // get index number from input string
+      char *prv_str = get_history(history, index); 
+      if (prv_str != NULL) { // check if history points to null
+	printf("Item #%d: ",index); //print index number
+	printf(get_history(history, index)); //print string
       }
     }
     if(*str != '!') { 
