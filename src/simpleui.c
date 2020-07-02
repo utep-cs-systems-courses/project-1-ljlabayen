@@ -5,25 +5,34 @@
 #define MAX 1000
 
 void test() {
+  printf("Running tests...\n");
+  printf("space_char test:\n");
   printf("%d\n", space_char(' '));
   printf("%d\n", space_char('\t'));                            
   printf("%d\n", space_char('e'));
   printf("%d\n", space_char('6'));
-  
+
+  printf("\nnon_space_char test:\n");
   printf("%d\n",non_space_char(' '));
   printf("%d\n", non_space_char('\t'));                            
   printf("%d\n", non_space_char('x'));
   printf("%d\n", non_space_char('2'));
 
+  char t[]="dog has fleas";
+  printf("\nword count test:\n");
+  printf("%d\n", count_words(t));
+
+  printf("\nhistory tests:\n");
   List* history = init_history();
-  add_history(history, "test1");
-  add_history(history, "test2 test2");
-  add_history(history, "3test 3test 3test");
-  printf("%s\n", get_history(history, 0));
+  add_history(history, "the quick brown");
+  add_history(history, "lazy dog");
+  add_history(history, "computer science");
   printf("%s\n", get_history(history, 1));
   printf("%s\n", get_history(history, 2));
   printf("%s\n", get_history(history, 3));
+  printf("\nprint history test:\n");
   print_history(history);
+  
 }
 
 int main() {
@@ -31,11 +40,14 @@ int main() {
   char str[MAX];
   int condition = 1;
   List *history = init_history();
+
+  printf("\nHello! Enter string to be tokenized.\n");
+  printf("Enter ! followed by the id to get history.\n");
+  printf("0 to exit and print history then dealloacate\n");
   
   while(condition == 1) {
     printf("$ ");
     fgets(str, MAX, stdin);
-  
     if (*str == '!') {
       int index = atoi(str+1);
       char *prv_str = get_history(history, index);
@@ -46,10 +58,11 @@ int main() {
     }
     if(*str != '!') { 
       char** tokens = tokenize(str);
-      print_tokens(tokens);
-      free_tokens(tokens);
+      printf("Your tokenized string:\n");
+      print_tokens(tokens); // print tokenized string
+      add_history(history, str); // add string to history
+      free_tokens(tokens); // free tokens
       // print_history(history);
-      add_history(history, str);
     }
      if (*str == '0')
        condition = 0; 
@@ -59,4 +72,3 @@ int main() {
   return 0;
 
 }
-

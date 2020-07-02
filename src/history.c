@@ -4,52 +4,62 @@
 #include "tokenizer.h"
 
 List* init_history()  {
-  List *history;
-  history = (List*) malloc(sizeof(List));
-  history->root = NULL;
-  return history;
+  //  List *history;
+  List *list = (List *)malloc(sizeof(List));
+  list->root = NULL;
 }
 
-void add_history(List *list, char *str) {		      
-  Item *new = (Item*)malloc(sizeof(Item));
-  //if list is empty
-  if (list->root == NULL){
-    new->id = 1;
-    list->root = new;
-  // otherwise, list is not empty
-  } else {
-    Item *currItem = list->root;
-    while(currItem->next != NULL) {
-      currItem =  currItem->next;
-    }
-    // update id 
-    new->id =  currItem->id + 1;
-    currItem->next = new;
+int str_len(char *str) {
+  int i = 0;
+  int count = 0;
+
+  while(str[i] != '\0'){
+    i++;
+    count++;
   }
-  // new string is added to linked list
-  new->str = str;
-  new->next = NULL;
-}
+  return count;
+}    
+void add_history(List *list, char *str) {
+  Item *new_item = (Item *)malloc(sizeof(Item)); //initialize new item and allocate memory
+  Item *temp = list->root; // temporary node
+  
+  new_item->str = copy_str(str, str_len(str)); // use copy_str to copy 
+  new_item->next=NULL;
+  // if list is empty
+  if (list->root == NULL) {
+    list->root = new_item;
+    new_item->id = 1; // set id to 1
 
+  } else {
+    while(temp->next != NULL) { // iterate to the end of the list
+      new_item->id++; 
+      temp = temp->next; // move to next item
+    }
+
+    temp->next = new_item; // add new item
+    new_item->id = temp->id + 1; // new item id
+  }
+}
+ 
 char *get_history(List *list, int id) {
   // check if list is empty
   if (list->root == NULL) {
     return "List is empty";
   } else {
     Item* temp = list->root;
-    //traverse linked list
-    while (temp != NULL) {
+    
+    while (temp != NULL) { // traverse linked list
       if (temp->id == id) {
 	return temp->str;
       }
       temp = temp->next;
     }
-    return "Item ID not found\n";
+    return "Item ID not found\n"; // if given id is not found
   }
 }
 
 void print_history(List *list) {
-  Item* temp = (list->root);
+  Item *temp = list->root;
   // traverse linked list and print id and string
   while (temp != NULL) {
     printf("Item [%d]: %s \n", temp->id, temp->str);
@@ -58,10 +68,10 @@ void print_history(List *list) {
 }
 
 void free_history(List *list) {
-  Item* temp;
+  Item* temp; // temporary pointers
   Item* temp2;
   temp2 = list->root;
-  // keep track of next 
+  // traverse linked list and keep track of next 
   while (temp2 != NULL) {
     temp =  temp2;
     temp2 = temp2->next;

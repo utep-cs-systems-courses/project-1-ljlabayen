@@ -21,16 +21,16 @@ int non_space_char(char c) {
 }
 
 char *word_start(char *str){
-  while(!non_space_char(*str)) {
-    str = str + 1;
+  while(!non_space_char(*str)) { // use non_space_char to iterate
+    str = str + 1; // increment to next character
   }
   return str;
   
 }
 
 char *word_terminator(char *word) {
-  while (non_space_char((*word))) {
-    word = word + 1;
+  while (non_space_char((*word))) { // use non_space_char to iterate
+    word = word + 1; //increment to next character
   }
   return word;
 }
@@ -44,39 +44,37 @@ int count_words(char* str) {
   while(*str) {
     if (*str == ' ' || *str == '\n' || *str == '\t') {
       state = OUT;
-    } else if (state == OUT) {
+    } else if (state == OUT) { // if state is OUT then we have seen 1 word
       state = IN;
-      count++;
+      count++; // increment word count
     }
-    str++;
+    str++; //increment pointer
   }
   return count;
 }
 
 char *copy_str(char *inStr, short len) {
-  char* helper = inStr;
-  char* copyStr =  NULL;
+  char *copyStr;
 
   //allocate extra memory for '\0' at the end of the string
   copyStr = (char*) malloc(sizeof(char) * (len + 1));
 
-  //add '\0' at the end of the string
-  copyStr[len] = '\0';
+  int i;
+  for(i=0; i < len; i++) 
+    copyStr[i] = inStr[i]; // copy each character
 
-  int index = 0;
-  while(*helper != '\0') {
-    copyStr[index++] = *helper++;
-  }
+  copyStr[i]='\0'; // set last charcter to '\0'
+    
   return copyStr;
 }
 
 char** tokenize(char* str) {
   int size = count_words(str);
   char **tokens;
-  tokens =  (char**) malloc((size+1) * sizeof(char*));
+  tokens =  (char**) malloc((size+1) * sizeof(char*)); // allocating memory 
 
   char* start = str;
-  char* end = word_terminator(str);
+  char* end = word_terminator(str); // use word_terminator to word end
   int i;
   for (i = 0; i < size; i++) {
     if (i > 0) {
@@ -85,9 +83,9 @@ char** tokenize(char* str) {
     }
 
     int size2 =  end - start;
-    tokens[i] = malloc(size2 * sizeof(char));
+    tokens[i] = malloc(size2 * sizeof(char)); // allocate for size of the word
     for (int j = 0; j < size2; j++) {
-      tokens[i][j] = start[j];
+      tokens[i][j] = start[j]; // insert to tokens
     }
   }
   tokens[i] = '\0';
@@ -95,18 +93,20 @@ char** tokenize(char* str) {
 }
 
 void print_tokens(char **tokens) {
-  int i = 0;
-  while(tokens[i] != NULL) {
-    printf("%s\n", tokens[i]);
-    i++;
+  // iterate 2D array using double for loop to print
+  for(int i = 0; tokens[i] != NULL; i++) {
+    for(int j = 0; tokens[i][j] != '\0'; j++) {
+      printf("%c", tokens[i][j]);
+    }
+    printf("\n");
   }
 }
-
+    				  
 void free_tokens(char **tokens) {
   int i = 0;
-  while(tokens[i]) {
-    free(tokens[i]);
-    i++;
+  while(tokens[i]) { // loop to iterate through all tokens
+    free(tokens[i]); // each token is freed
+    i++; // increment for next token
   }
-  free(tokens);
+  free(tokens); //free double pointer
 }
